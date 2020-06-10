@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
 	mode: 'development',
-	entry: './src/vertical-bar.js',
+	entry: './src/histogram.js',
 	devServer: {
 		contentBase: './dist'
 	},

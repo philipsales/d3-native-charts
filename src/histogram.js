@@ -1,60 +1,83 @@
 const d3 = Object.assign({}, require("d3"), require("d3-array"));
-const local = require('./vertical-bar.localMessage.js');
+const local = require('./histogram.localMessage.js');
 
 export const LOCAL =  true;
 
 /*
 const d3FormatData =  [
-	{id: "total breast", value: 1615},
-	{id: "total breast.specified", value: 1427},
-	{id: "total breast.specified.stage 0 - 1c", value: 406},
+    {price: "5.0"},
+    {price: "5.6"},
+    {price: "5.7"},
+    {price: "5.8"},
+    {price: "5.8"},
+    {price: "5.8"},
+    {price: "5.8"},
+    {price: "5.9"},
+    {price: "6.0"},
+    {price: "6.2"},
+    {price: "6.2"},
+    {price: "6.3"},
+    {price: "6.4"},
+    {price: "6.5"},
+    {price: "6.6"},
+    {price: "6.7"},
+    {price: "6.7"},
+    {price: "6.7"},
+    {price: "7.0"},
+    {price: "7.1"},
+    {price: "6.0"}
 ]
 */
 
-const drawViz = (messge) => {
+const drawViz = (message) => {
 
-    const margin = {top: 10, right: 30, bottom: 30, left: 40},
+    // set the dimensions and margins of the graph
+    var margin = {top: 10, right: 30, bottom: 30, left: 40},
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
-    d3.select('body')
-        .selectAll('svg')
-        .remove();
-
-    const svg = d3
-        .select('body')
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
-    const g = svg.append("g")
+        .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	const data = transformData(local.message)
-
-    // get the data
-    d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/1_OneNum.csv", function(data) {
+	//const data =  d3FormatData 
+	const data = transformData(message) 
 
     // X axis: scale and draw:
-    const x = d3.scaleLinear()
-        .domain([0, 1000])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+    var x = d3.scaleLinear()
+        .domain([
+            d3.min(data, function(d) { return +d.value }) ,
+            d3.max(data, function(d) { return +d.value }) 
+            ])
         .range([0, width]);
+
+    console.log('min value:', d3.min(data, function(d) { return +d.value }))
+    console.log('length-', data.length)
+    console.log('max value:', d3.max(data, function(d) { return +d.value }))
+
     svg.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
 
     // set the parameters for the histogram
-    const histogram = d3.histogram()
-        .value(function(d) { return d.price; })   // I need to give the vector of value
+    var histogram = d3.histogram()
+        .value(function(d) { return d.value; })   // I need to give the vector of value
         .domain(x.domain())  // then the domain of the graphic
-        .thresholds(x.ticks(70)); // then the numbers of bins
+        .thresholds(x.ticks(data.length - 1)); // then the numbers of bins
 
     // And apply this function to data to get the bins
-    const bins = histogram(data);
+    var bins = histogram(data);
 
-    // Y axis: scale and draw:
-    const y = d3.scaleLinear()
-        .range([height, 0]);
-        y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
+        // Y axis: scale and draw:
+    var y = d3.scaleLinear()
+            .range([height, 0]);
+
+    y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
+
     svg.append("g")
         .call(d3.axisLeft(y));
 
@@ -68,9 +91,17 @@ const drawViz = (messge) => {
             .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#69b3a2")
-
-})
+    
+    function transformData(message){
+        return message.tables.DEFAULT.map( d => {
+            return {
+                "type": d.dimension[0],
+                "value": d.metric[0]
+            }
+        })
+    }
+}
 
 if (LOCAL) {
-    drawViz(local.message);
-  } 
+  drawViz(local.message);
+} 
