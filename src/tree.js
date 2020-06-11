@@ -20,11 +20,10 @@ const drawViz = (message) => {
 	  .selectAll('svg')
 	  .remove();
 
-	const svg = d3
-	  .select('body')
-	  .append('svg')
-	  .attr('width', width)
-	  .attr('height', height);
+	const svg = d3.select('body')
+				  .append('svg')
+			  	  .attr('width', width)
+				  .attr('height', height);
 
 	const g =  svg.append('g')
 				.attr('transform', `translate (${margin.left}, ${margin.top})`)
@@ -38,7 +37,7 @@ const drawViz = (message) => {
 	const stratify = d3.stratify()
 		.parentId(function(d) { return d.id.substring(0, d.id.lastIndexOf(".")); });
 
-	const data = transformData(local.message)
+	const data = transformData(message)
 
 	const root = stratify(data)
 		.sort(function(a, b) { return (a.height - b.height) || a.id.localeCompare(b.id); });
