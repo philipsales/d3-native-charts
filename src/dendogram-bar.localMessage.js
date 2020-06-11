@@ -2,40 +2,44 @@ export const message = {
   "tables": {
     "DEFAULT": [
       {
-        "dimension": [ "total breast" ],
-        "metric": [ "1614" ]
+        "dimension": [ "breast cancer" ],
+        "metric": [ "" ]
       },
       {
-        "dimension": [ "total breast.specified" ],
-        "metric": [ "1427" ]
+        "dimension": [ "breast cancer.unspecified" ],
+        "metric": [ "" ]
       },
       {
-        "dimension": [ "total breast.specified.stage 0 - 1c" ],
+        "dimension": [ "breast cancer.unspecified.unspecified" ],
+        "metric": [ "807" ]
+      },
+      {
+        "dimension": [ "breast cancer.specified" ],
+        "metric": [ "" ]
+      },
+      {
+        "dimension": [ "breast cancer.specified.stage 0 - 1c" ],
         "metric": [ "406" ]
       },
       {
-        "dimension": [ "total breast.specified.stage 0 - 1c.stage 0" ],
+        "dimension": [ "breast cancer.specified.stage 0 - 1c.stage 0" ],
         "metric": [ "1406" ]
       },
       {
-        "dimension": [ "total breast.specified.stage 0 - 1c.stage 1" ],
+        "dimension": [ "breast cancer.specified.stage 0 - 1c.stage 1" ],
         "metric": [ "16" ]
       },
       {
-        "dimension": [ "total breast.specified.stage 0 - 1c.stage 1b" ],
+        "dimension": [ "breast cancer.specified.stage 0 - 1c.stage 1b" ],
         "metric": [ "1" ]
       },
       {
-        "dimension": [ "total breast.specified.stage 0 - 1c.stage 1c" ],
+        "dimension": [ "breast cancer.specified.stage 0 - 1c.stage 1c" ],
         "metric": [ "10" ]
       },
       {
-        "dimension": [ "total breast.specified.stage 2 - 2b" ],
+        "dimension": [ "breast cancer.specified.stage 2 - 2b" ],
         "metric": [ "340" ]
-      },
-      {
-        "dimension": [ "total breast.unspecified" ],
-        "metric": [ "1807" ]
       }
     ]
   },
