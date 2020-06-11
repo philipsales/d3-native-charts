@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
 	mode: 'development',
-	entry: './src/histogram.js',
+	entry: './src/tree.js',
 	devServer: {
 		contentBase: './dist'
 	},
